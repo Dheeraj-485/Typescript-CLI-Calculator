@@ -34,12 +34,12 @@
 //        power(a, b);
 //       break;
 //     default:
-//       console.warn("Please provide a valid value");
+//       console.log("Please provide a valid value");
 //   }
 // };
 
 // let result = calculate(2, 3, "/");
-// console.warn(result);
+// console.log(result);
 
 import { question } from "readline-sync";
 
@@ -47,26 +47,40 @@ type Operator = "+" | "-" | "*" | "/" | "**";
 
 function main() {
   const firstStr: string = question("Enter 1st number\n");
-  const operator: string = question("Enter operator\n");
-  const secondStr: string = question("Enter 2nd number\n");
 
-  const validType =
-    isNumber(firstStr) && isNumber(secondStr) && isOperator(operator);
-  if (validType) {
-    const firstNum: number = parseInt(firstStr);
-    const secondNum: number = parseInt(secondStr);
-    const result = calculate(firstNum, secondNum, operator as Operator);
+  //Instant error if a string or something else
 
-    console.log(result);
-    main();
-  } else {
-    console.log("\nPlease enter valid input");
+  if (!isNumber(firstStr)) {
+    console.log("\n Please enter a valid number");
     main();
   }
+  const operator: string = question("Enter operator\n");
+
+  if (!isOperator(operator)) {
+    console.log("\nPlease enter a valid operator");
+    main();
+  }
+  const secondStr: string = question("Enter 2nd number\n");
+
+  if (!isNumber(secondStr)) {
+    console.log("\nPlease enter a valid second number");
+    main();
+  }
+  //   const validType =
+  //     isNumber(firstStr) && isNumber(secondStr) && isOperator(operator);
+
+  const firstNum: number = parseFloat(firstStr);
+
+  const secondNum: number = parseFloat(secondStr);
+  const result = calculate(firstNum, secondNum, operator as Operator);
+
+  console.log(`Result: ${result}`);
+  main();
 }
 
 function isNumber(str: string): boolean {
-  return !isNaN(parseFloat(str));
+  const valid = !isNaN(parseFloat(str));
+  return valid;
 }
 
 function isOperator(str: string): boolean {
@@ -76,23 +90,18 @@ function isOperator(str: string): boolean {
 function calculate(a: number, b: number, operator: Operator) {
   switch (operator) {
     case "+":
-      a + b;
-      break;
+      return a + b;
 
     case "-":
-      a - b;
-      break;
+      return a - b;
     case "*":
-      a * b;
-      break;
+      return a * b;
     case "/":
-      a / b;
-      break;
+      return a / b;
     case "**":
-      a ** b;
-      break;
+      return a ** b;
     default:
-      throw new Error("Please enter valid operator");
+      console.log("Please enter valid operator");
   }
 }
 
